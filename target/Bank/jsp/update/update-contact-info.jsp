@@ -14,7 +14,7 @@
 </head>
 <body>
 <jsp:include page="../messages/error-message.jsp"/>
-<form action="update" method="post">
+<form class="center" action="update" method="post">
     <input class="insert" type="text" name="new-phone-number" value="${person.getContactInfo().getPhoneNumber()}" maxlength="13"><br>
     <input class="insert" type="text" name="new-email" value="${person.getContactInfo().getEmail()}"><br>
     <input class="insert" type="text" name="new-address" value="${person.getContactInfo().getAddress()}"><br>

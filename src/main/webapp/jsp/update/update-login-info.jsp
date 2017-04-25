@@ -14,7 +14,7 @@
 </head>
 <body>
 <jsp:include page="../messages/error-message.jsp"/>
-<form action="update" method="post">
+<form class="center" action="update" method="post">
     <input class="insert" type="text" name="new-username" value="${person.getLoginInfo().getUsername()}"><br>
     <input class="insert" type="password" name="new-password"><br>
     <input class="insert" type="password" name="new-confirm-password"><br>

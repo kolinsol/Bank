@@ -14,7 +14,7 @@
 </head>
 <body>
 <jsp:include page="../messages/error-message.jsp"/>
-    <form action="update" method="post">
+    <form class="center" action="update" method="post">
         <input class="insert" type="text" name="new-firstname" value="${person.getFirstName()}"><br>
         <input class="insert" type="text" name="new-secondname" value="${person.getSecondName()}"><br>
         <input class="insert" type="text" name="new-lastname" value="${person.getLastName()}"><br>

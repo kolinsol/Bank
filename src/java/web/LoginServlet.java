@@ -1,6 +1,7 @@
 package web;
 
 import database.DataBaseManager.CityManager;
+import database.DataBaseManager.CurrencyManager;
 import database.DataBaseManager.LoginManager;
 import database.pojo.Person;
 
@@ -30,7 +31,12 @@ public class LoginServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
-        setCities(req, resp);
+        if (getServletContext().getAttribute("cities") == null) {
+            setCities(req, resp);
+        }
+        if (getServletContext().getAttribute("currencies") == null) {
+            setCurrencies(req, resp);
+        }
         req.setCharacterEncoding("utf-8");
         if (req.getParameter("register") != null) {
             req.getRequestDispatcher("jsp/registration/registration-step-1.jsp").forward(req, resp);
@@ -59,6 +65,17 @@ public class LoginServlet extends HttpServlet {
             e.printStackTrace();
         }
         sc.setAttribute("cities", cities);
+    }
+
+    private void setCurrencies(HttpServletRequest req, HttpServletResponse resp) {
+        ServletContext sc = getServletContext();
+        ArrayList<String> currencies = null;
+        try {
+            currencies = new CurrencyManager().getAll();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        sc.setAttribute("currencies", currencies);
     }
 
     private Boolean checkAdmin(HttpServletRequest req, HttpServletResponse resp) {

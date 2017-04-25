@@ -16,7 +16,7 @@
 </head>
 <body>
 <jsp:include page="../messages/error-message.jsp"/>
-    <form action="registration" method="post">
+    <form class="center" action="registration" method="post">
         Серийный номер<br>
         <input class="insert" type="text" name="serial_number" placeholder="Введите номер..." maxlength="9"><br>
         Дата выдачи<br>

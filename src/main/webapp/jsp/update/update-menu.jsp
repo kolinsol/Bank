@@ -14,7 +14,7 @@
 </head>
 <body>
 <jsp:include page="../messages/complete-message.jsp"/>
-    <form action="update" method="get">
+    <form class="center" action="update" method="get">
         <input type="submit" name="update-person" value="Основная информация">
         <input type="submit" name="update-passport" value="Пасспортные данные">
         <input type="submit" name="update-contact-info" value="Контактная информация">

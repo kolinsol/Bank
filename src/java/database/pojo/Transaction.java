@@ -7,10 +7,11 @@ import java.time.LocalDateTime;
  * Created by kolinsol on 3/27/17.
  */
 public abstract class Transaction {
-    private LocalDateTime createTime;
-    private double amount;
-    private float percentage;
-    private LocalDate operationPeriod;
-
-
+    protected String code;
+    protected int period;
+    protected int personId;
+    protected int currencyId;
+    protected int depositTypeId;
+    protected String status;
+    protected double amount;
 }

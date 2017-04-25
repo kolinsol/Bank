@@ -13,8 +13,9 @@
     <link rel="stylesheet" href="css/new.css">
 </head>
 <body>
-    <form action="main-controller" method="get">
+    <form class="center" action="main-controller" method="get">
         <input type="submit" name="update-info" value="update info">
+        <input type="submit" name="deposits" value="deposits">
     </form>
 </body>
 </html>

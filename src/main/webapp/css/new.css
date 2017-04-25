@@ -2,7 +2,7 @@ body {
     font-family: "Helvetica", serif;
 }
 
-form {
+form.center {
     background-color: #F2F2F2;
     width: 200px;
     padding: 20px;
@@ -24,6 +24,15 @@ input[type="submit"] {
 
 input[type="submit"]:hover {
     background-color: #40b517;
+}
+
+input.deposit-submit {
+    background-color: #B5112D;
+    border-radius: 4px;
+    padding: 20px;
+    margin-top: 20px;
+    margin-left: 20px;
+    display: inline-block;
 }
 
 input.insert {
@@ -77,4 +86,39 @@ div.complete-message {
 
 div.complete-wrapper {
     text-align: center;
+}
+
+div.deposit-container {
+    background-color: #F2F2F2;
+    border-radius: 4px;
+    margin: 20px 20px 20px 60px;
+    padding: 20px
+}
+
+span.deposit-name {
+    font-size: 32px;
+    margin
+}
+
+div.table-wrapper {
+    background-color: white;
+    border-radius: 4px;
+    padding: 20px;
+    margin-top: 20px;
+    display: inline-block;
+}
+
+table.deposit-description {
+    font-size: 12pt;
+    border-collapse: collapse;
+    border-width: 0;
+}
+
+td.value {
+    text-align: center;
+    width: 40px;
+}
+
+div.table-wrapper + div.table-wrapper {
+    margin-left: 20px;
 }

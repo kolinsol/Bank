@@ -16,7 +16,7 @@
 </head>
 <body>
 <jsp:include page="../messages/error-message.jsp"/>
-    <form action="registration" method="post">
+    <form class="center" action="registration" method="post">
         Номер телефона<br>
         <input class="insert" type="text" name="phone_number" placeholder="Введите номер..." maxlength="13"><br>
         Электронная почта<br>

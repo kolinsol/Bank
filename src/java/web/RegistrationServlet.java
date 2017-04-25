@@ -2,6 +2,8 @@ package web;
 
 import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils;
 import database.DataBaseManager.*;
+import database.pojo.Account;
+import database.pojo.AccountType;
 import database.pojo.Person;
 
 import javax.servlet.ServletException;
@@ -137,6 +139,7 @@ public class RegistrationServlet extends HttpServlet {
                     } catch (SQLException e) {
                         e.printStackTrace();
                     }
+                    System.out.println(registerPersonalAccount(personId));
                     req.setAttribute("completeMessage", "Ркгистрация прошла успешно");
                     req.getRequestDispatcher("jsp/login/login.jsp").forward(req, resp);
                 }
@@ -230,5 +233,22 @@ public class RegistrationServlet extends HttpServlet {
         }
         Person.LoginInfo loginInfo = new Person.LoginInfo(username, password);
         return new LoginManager().create(loginInfo);
+    }
+
+    private Integer registerPersonalAccount(Integer personId) {
+        Person person = null;
+        try {
+            person = new PersonManager().getEntityById(personId);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        Account account = new Account(AccountType.PERSONAL, person);
+        Integer accountId = null;
+        try {
+            accountId = new AccountManager().create(account);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return accountId;
     }
 }

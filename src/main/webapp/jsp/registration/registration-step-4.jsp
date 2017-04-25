@@ -16,7 +16,7 @@
 </head>
 <body>
 <jsp:include page="../messages/error-message.jsp"/>
-<form action="registration" method="post">
+<form class="center" action="registration" method="post">
     Логин<br>
     <input class="insert" type="text" name="username" placeholder="Введите логин..."><br>
     Пароль<br>
