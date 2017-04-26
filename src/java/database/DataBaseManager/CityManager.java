@@ -43,7 +43,7 @@ public class CityManager extends AbstractManager<String, Integer> {
     @Override
     public ArrayList<String> getAll() {
         ArrayList<String> cities = new ArrayList<>();
-        CallableStatement getCities = null;
+        CallableStatement getCities;
         try {
             getCities = getCallableStatement("{call getCities()}");
             ResultSet rs = getCities.executeQuery();

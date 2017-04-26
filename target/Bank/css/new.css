@@ -27,6 +27,7 @@ input[type="submit"]:hover {
 }
 
 input.deposit-submit {
+    width: auto;
     background-color: #B5112D;
     border-radius: 4px;
     padding: 20px;
