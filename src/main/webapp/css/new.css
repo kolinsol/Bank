@@ -26,7 +26,7 @@ input[type="submit"]:hover {
     background-color: #40b517;
 }
 
-input.deposit-submit {
+input.transaction-submit {
     width: auto;
     background-color: #B5112D;
     border-radius: 4px;
@@ -89,14 +89,14 @@ div.complete-wrapper {
     text-align: center;
 }
 
-div.deposit-container {
+div.transaction-container {
     background-color: #F2F2F2;
     border-radius: 4px;
     margin: 20px 20px 20px 60px;
     padding: 20px
 }
 
-span.deposit-name {
+span.transaction-name {
     font-size: 32px;
     margin
 }
@@ -109,7 +109,7 @@ div.table-wrapper {
     display: inline-block;
 }
 
-table.deposit-description {
+table.transaction-description {
     font-size: 12pt;
     border-collapse: collapse;
     border-width: 0;

@@ -16,9 +16,10 @@
 <body>
 <jsp:include page="../messages/complete-message.jsp"/>
 <c:forEach var="deposit" items="${deposits}" varStatus="status">
-    <div class="deposit-container">
+    <div class="transaction-container">
         <form action="admin" method="get">
             <input type="hidden" name="depositId" value="${deposit[0]}">
+            <input type="hidden" name="personId" value="${deposit[5]}">
             <div class="table-wrapper">
                 ${deposit[2]}
             </div>
@@ -31,8 +32,8 @@
             <div class="table-wrapper">
                 ${deposit[4]}
             </div>
-            <input class="deposit-submit" name="accept-deposit" type="submit" value="Принять">
-            <input class="deposit-submit" name="decline-deposit" type="submit" value="Отклонить">
+            <input class="transaction-submit" name="accept-deposit" type="submit" value="Принять">
+            <input class="transaction-submit" name="decline-deposit" type="submit" value="Отклонить">
         </form>
     </div>
 </c:forEach>

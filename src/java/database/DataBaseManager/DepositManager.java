@@ -23,7 +23,35 @@ public class DepositManager extends AbstractManager<Deposit, Integer> {
 
     @Override
     public Deposit getEntityById(Integer id) {
-        throw new UnsupportedOperationException();
+        CallableStatement getDeposit;
+        Deposit deposit = null;
+        try {
+            getDeposit = getCallableStatement("{call getDeposit(?,?,?,?,?,?,?,?)}");
+            getDeposit.setInt("inoutput_id", id);
+            getDeposit.registerOutParameter("inoutput_id", Types.TINYINT);
+            getDeposit.registerOutParameter("output_code", Types.CHAR);
+            getDeposit.registerOutParameter("output_period", Types.TINYINT);
+            getDeposit.registerOutParameter("output_person_id", Types.TINYINT);
+            getDeposit.registerOutParameter("output_currency_id", Types.TINYINT);
+            getDeposit.registerOutParameter("output_deposit_type_id", Types.TINYINT);
+            getDeposit.registerOutParameter("output_status", Types.VARCHAR);
+            getDeposit.registerOutParameter("output_amount", Types.DOUBLE);
+            getDeposit.execute();
+            Integer depositId = getDeposit.getInt("inoutput_id");
+            String code = getDeposit.getString("output_code");
+            Integer period = getDeposit.getInt("output_period");
+            Integer personId = getDeposit.getInt("output_person_id");
+            Integer currencyId = getDeposit.getInt("output_currency_id");
+            Integer depositTypeId = getDeposit.getInt("output_deposit_type_id");
+            String status = getDeposit.getString("output_status");
+            Double amount = getDeposit.getDouble("output_amount");
+            deposit = new Deposit(depositId, code, period, personId,
+                    currencyId, depositTypeId, status, amount);
+            closeCallableStatement(getDeposit);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return deposit;
     }
 
     @Override
@@ -46,7 +74,7 @@ public class DepositManager extends AbstractManager<Deposit, Integer> {
             createDeposit.setInt("input_period", entity.getPeriod());
             createDeposit.setInt("input_person_id", entity.getPersonId());
             createDeposit.setInt("input_currency_id", entity.getCurrencyId());
-            createDeposit.setInt("input_deposit_type_id", entity.getDepositTypeId());
+            createDeposit.setInt("input_deposit_type_id", entity.getTransactionTypeId());
             createDeposit.setString("input_status", entity.getStatus());
             createDeposit.setDouble("input_amount", entity.getAmount());
             createDeposit.registerOutParameter("output_id", Types.TINYINT);
@@ -66,17 +94,19 @@ public class DepositManager extends AbstractManager<Deposit, Integer> {
             getPendingDeposits = getCallableStatement("{call getPendingDeposits()}");
             ResultSet rs = getPendingDeposits.executeQuery();
             while (rs.next()) {
-                String id = rs.getString("id");
+                String depositId = rs.getString("deposit_id");
                 String name = rs.getString("name");
                 String code = rs.getString("code");
                 String percentage = rs.getString("percentage");
                 String amount = rs.getString("amount");
+                String personId = rs.getString("person_id");
                 String[] record = {
-                        id,
+                        depositId,
                         name,
                         code,
                         percentage,
-                        amount
+                        amount,
+                        personId
                 };
                 records.add(record);
             }
@@ -97,6 +127,22 @@ public class DepositManager extends AbstractManager<Deposit, Integer> {
             declineDeposit.execute();
             code = declineDeposit.getString("output_deposit_code");
             closeCallableStatement(declineDeposit);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return code;
+    }
+
+    public String acceptDeposit(Integer id) {
+        String code = null;
+        CallableStatement acceptDeposit;
+        try {
+            acceptDeposit = getCallableStatement("{call acceptDeposit(?,?)}");
+            acceptDeposit.setInt("input_deposit_id", id);
+            acceptDeposit.registerOutParameter("output_deposit_code", Types.CHAR);
+            acceptDeposit.execute();
+            code = acceptDeposit.getString("output_deposit_code");
+            closeCallableStatement(acceptDeposit);
         } catch (SQLException e) {
             e.printStackTrace();
         }

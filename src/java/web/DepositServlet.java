@@ -3,7 +3,7 @@ package web;
 import database.DataBaseManager.CurrencyManager;
 import database.DataBaseManager.DepositManager;
 import database.pojo.Deposit;
-import database.pojo.DepositStatus;
+import database.pojo.TransactionStatus;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -33,11 +33,13 @@ public class DepositServlet extends HttpServlet {
         double amount = Double.parseDouble(req.getParameter("amount"));
         String code = "D"+(int)(Math.random()*(999999 - 100000) + 100000);
         Deposit deposit = new Deposit(code, period, personId, currencyId,
-                depositTypeId, DepositStatus.PENDING, amount);
+                depositTypeId, TransactionStatus.PENDING, amount);
         try {
             System.out.println(new DepositManager().create(deposit));
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        req.setAttribute("completeMessage", "Заявка на депозит отправлена");
+        req.getRequestDispatcher("jsp/main/home-page.jsp").forward(req, resp);
     }
 }

@@ -15,6 +15,7 @@
 <body>
 <form class="center" action="admin" method="get">
     <input type="submit" name="admin-deposits" value="deposits">
+    <input type="submit" name="admin-credits" value="credits">
 </form>
 </body>
 </html>

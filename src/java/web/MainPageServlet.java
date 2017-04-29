@@ -1,6 +1,9 @@
 package web;
 
+import database.DataBaseManager.CreditTypeManager;
 import database.DataBaseManager.DepositTypeManager;
+import database.pojo.Credit;
+import database.pojo.CreditType;
 import database.pojo.DepositType;
 
 import javax.servlet.ServletException;
@@ -26,6 +29,10 @@ public class MainPageServlet extends HttpServlet {
             req.setAttribute("depositTypes", getDepositTypes());
             req.getRequestDispatcher("jsp/deposits/deposit-main.jsp").forward(req, resp);
         }
+        if (req.getParameter("credits") != null) {
+            req.setAttribute("creditTypes", getCreditTypes());
+            req.getRequestDispatcher("jsp/credits/credit-main.jsp").forward(req, resp);
+        }
     }
 
     private ArrayList<DepositType> getDepositTypes() {
@@ -36,5 +43,15 @@ public class MainPageServlet extends HttpServlet {
             e.printStackTrace();
         }
         return depositTypes;
+    }
+
+    private ArrayList<CreditType> getCreditTypes() {
+        ArrayList<CreditType> creditTypes = null;
+        try {
+            creditTypes = new CreditTypeManager().getAll();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return creditTypes;
     }
 }

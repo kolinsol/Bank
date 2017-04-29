@@ -13,9 +13,11 @@
     <link rel="stylesheet" href="css/new.css">
 </head>
 <body>
+<jsp:include page="../messages/complete-message.jsp"/>
     <form class="center" action="main-controller" method="get">
         <input type="submit" name="update-info" value="update info">
         <input type="submit" name="deposits" value="deposits">
+        <input type="submit" name="credits" value="credits">
     </form>
 </body>
 </html>

@@ -15,8 +15,8 @@
 </head>
 <body>
 <c:forEach var="depositType" items="${depositTypes}" varStatus="status">
-    <div class="deposit-container">
-        <span class="deposit-name">
+    <div class="transaction-container">
+        <span class="transaction-name">
                 ${depositType.getName()}
         </span>
         <br>
@@ -48,7 +48,7 @@
             <div class="table-wrapper">
                 ${depositType.getPercentage()} %
             </div>
-            <input class="deposit-submit" type="submit" value="Подать заявку">
+            <input class="transaction-submit" type="submit" value="Подать заявку">
         </form>
     </div>
 </c:forEach>

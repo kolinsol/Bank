@@ -43,6 +43,10 @@ public class LoginServlet extends HttpServlet {
         }
         if (req.getParameter("login") != null) {
             if (checkAdmin(req, resp)) {
+                HttpSession session = req.getSession();
+                if (session.getAttribute("person") != null) {
+                    session.removeAttribute("person");
+                }
                 req.getRequestDispatcher("jsp/admin/admin-home-page.jsp").forward(req, resp);
             } else if (checkLogin(req, resp)) {
                 Person person = getEnteredPerson(req, resp);

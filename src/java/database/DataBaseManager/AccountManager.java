@@ -1,6 +1,7 @@
 package database.DataBaseManager;
 
 import database.pojo.Account;
+import database.pojo.AccountType;
 
 import java.sql.CallableStatement;
 import java.sql.SQLException;

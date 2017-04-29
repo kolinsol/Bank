@@ -6,7 +6,9 @@ package database.pojo;
 public enum AccountType {
     PERSONAL("PERSONAL", "3014"),
     DEPOSIT("DEPOSIT", "3404"),
-    DEPOSIT_PERCENTAGE("DEPOSIT-PERCENTAGE", "3414");
+    DEPOSIT_PERCENTAGE("DEPOSIT-PERCENTAGE", "3414"),
+    CREDIT("CREDIT", "2400"),
+    CREDIT_PERCENTAGE("CREDIT-PERCENTAGE", "2410");
 
     private String typeValue;
     private String code;

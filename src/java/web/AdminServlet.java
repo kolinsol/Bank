@@ -1,6 +1,11 @@
 package web;
 
+import database.DataBaseManager.AccountManager;
+import database.DataBaseManager.CreditManager;
 import database.DataBaseManager.DepositManager;
+import database.pojo.Account;
+import database.pojo.AccountType;
+import database.pojo.Deposit;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -22,8 +27,18 @@ public class AdminServlet extends HttpServlet {
             req.setAttribute("deposits", getPendingDeposits());
             req.getRequestDispatcher("jsp/admin/admin-deposits.jsp").forward(req, resp);
         }
+        if (req.getParameter("admin-credits") != null) {
+            req.setAttribute("credits", getPendingCredits());
+            req.getRequestDispatcher("jsp/admin/admin-credits.jsp").forward(req, resp);
+        }
         if (req.getParameter("accept-deposit") != null) {
-            System.out.println(req.getParameter("depositId"));
+            Integer depositId = Integer.parseInt(req.getParameter("depositId"));
+            Integer personId = Integer.parseInt(req.getParameter("personId"));
+            String depositCode = acceptDeposit(depositId, personId);
+            System.out.println(depositCode);
+            req.setAttribute("completeMessage", "Заявка " +depositCode+ " одобрена");
+            req.setAttribute("deposits", getPendingDeposits());
+            req.getRequestDispatcher("jsp/admin/admin-deposits.jsp").forward(req, resp);
         }
         if (req.getParameter("decline-deposit") != null) {
             Integer depositId = Integer.parseInt(req.getParameter("depositId"));
@@ -32,6 +47,24 @@ public class AdminServlet extends HttpServlet {
             req.setAttribute("completeMessage", "Заявка " +depositCode+ " отклонена");
             req.setAttribute("deposits", getPendingDeposits());
             req.getRequestDispatcher("jsp/admin/admin-deposits.jsp").forward(req, resp);
+        }
+        if (req.getParameter("accept-credit") != null) {
+            Integer creditId = Integer.parseInt(req.getParameter("creditId"));
+            Integer personId = Integer.parseInt(req.getParameter("personId"));
+            System.out.println(personId);
+            String creditCode = acceptCredit(creditId);
+            System.out.println(creditCode);
+            req.setAttribute("completeMessage", "Заявка " +creditCode+ " одобрена");
+            req.setAttribute("credits", getPendingCredits());
+            req.getRequestDispatcher("jsp/admin/admin-credits.jsp").forward(req, resp);
+        }
+        if (req.getParameter("decline-credit") != null) {
+            Integer creditId = Integer.parseInt(req.getParameter("creditId"));
+            String creditCode = declineCredit(creditId);
+            System.out.println(creditCode);
+            req.setAttribute("completeMessage", "Заявка " +creditCode+ " отклонена");
+            req.setAttribute("credits", getPendingCredits());
+            req.getRequestDispatcher("jsp/admin/admin-credits.jsp").forward(req, resp);
         }
     }
 
@@ -49,6 +82,64 @@ public class AdminServlet extends HttpServlet {
         String code = null;
         try {
             code = new DepositManager().declineDeposit(id);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return code;
+    }
+
+    private ArrayList<String[]> getPendingCredits() {
+        ArrayList<String[]> records = null;
+        try {
+            records = new CreditManager().getPendingCredits();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return records;
+    }
+
+    private String declineCredit(Integer id) {
+        String code = null;
+        try {
+            code = new CreditManager().declineCredit(id);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return code;
+    }
+
+    private String acceptDeposit(Integer depositId, Integer personId) {
+        Deposit deposit = null;
+        try {
+            deposit = new DepositManager().getEntityById(depositId);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        AccountManager accountManager;
+        try {
+            accountManager = new AccountManager();
+            Account depositAccount =
+                    new Account(AccountType.DEPOSIT, deposit, personId);
+            accountManager.create(depositAccount);
+            Account depositPercentageAcount =
+                    new Account(AccountType.DEPOSIT_PERCENTAGE, deposit, personId);
+            accountManager.create(depositPercentageAcount);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        String code = null;
+        try {
+            code = new DepositManager().acceptDeposit(depositId);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return code;
+    }
+
+    private String acceptCredit(Integer id) {
+        String code = null;
+        try {
+            code = new CreditManager().acceptCredit(id);
         } catch (SQLException e) {
             e.printStackTrace();
         }

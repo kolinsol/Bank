@@ -6,42 +6,27 @@ package database.pojo;
 public class Deposit extends Transaction {
 
     public Deposit(String code, int period, int personId,
-                   int currencyId, int depositTypeId,
-                   DepositStatus depositStatus, double amount) {
+                   int currencyId, int transactionTypeId,
+                   TransactionStatus transactionStatus, double amount) {
         this.code = code;
         this.period = period;
         this.personId = personId;
         this.currencyId = currencyId;
-        this.depositTypeId = depositTypeId;
-        this.status = depositStatus.getStatusValue();
+        this.transactionTypeId = transactionTypeId;
+        this.status = transactionStatus.getStatusValue();
         this.amount = amount;
     }
 
-    public String getCode() {
-        return code;
-    }
-
-    public int getPeriod() {
-        return period;
-    }
-
-    public int getPersonId() {
-        return personId;
-    }
-
-    public int getCurrencyId() {
-        return currencyId;
-    }
-
-    public int getDepositTypeId() {
-        return depositTypeId;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public double getAmount() {
-        return amount;
+    public Deposit(Integer id, String code, int period, int personId,
+                   int currencyId, int transactionTypeId,
+                   String status, double amount) {
+        this.id = id;
+        this.code = code;
+        this.period = period;
+        this.personId = personId;
+        this.currencyId = currencyId;
+        this.transactionTypeId = transactionTypeId;
+        this.status = status;
+        this.amount = amount;
     }
 }

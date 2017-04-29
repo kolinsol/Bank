@@ -10,7 +10,9 @@ public class Account {
     private String type;
     private Integer personId;
     private Integer currencyId;
-    private Integer amount;
+    private Integer depositId;
+    private Integer creditId;
+    private Double amount;
 
     public Account(AccountType accountType, Person person) {
         this.personId = person.getPersonId();
@@ -18,6 +20,19 @@ public class Account {
                 person.getPassport().getSerialNumber().substring(2)+
                 (int)(Math.random()*(99 - 10) + 10);
         this.type = accountType.getTypeValue();
+    }
+
+    public Account(AccountType accountType, Transaction transaction, Integer personId) {
+        this.personId = personId;
+        this.type = accountType.getTypeValue();
+        this.currencyId = transaction.getCurrencyId();
+        this.code = accountType.getCode()+
+                transaction.getCode().substring(1)+
+                (int)(Math.random()*(999 - 100) + 100);
+        this.amount = transaction.getAmount();
+//        if (accountType.getTypeValue().contains("PERCENTAGE")) {
+//            this.amount = 0.0;
+//        }
     }
 
     public String getCode() {
@@ -36,7 +51,15 @@ public class Account {
         return currencyId;
     }
 
-    public Integer getAmount() {
+    public Double getAmount() {
         return amount;
+    }
+
+    public Integer getDepositId() {
+        return depositId;
+    }
+
+    public Integer getCreditId() {
+        return creditId;
     }
 }

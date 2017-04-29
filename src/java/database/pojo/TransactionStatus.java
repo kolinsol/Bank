@@ -3,7 +3,7 @@ package database.pojo;
 /**
  * Created by kolinsol on 4/25/17.
  */
-public enum DepositStatus {
+public enum TransactionStatus {
     PENDING("PENDING"),
     ACCEPTED("ACCEPTED"),
     DECLINED("DECLINED"),
@@ -11,7 +11,7 @@ public enum DepositStatus {
 
     private String statusValue;
 
-    DepositStatus(String statusValue) {
+    TransactionStatus(String statusValue) {
         this.statusValue = statusValue;
     }
 
