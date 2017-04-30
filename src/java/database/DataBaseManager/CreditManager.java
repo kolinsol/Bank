@@ -1,11 +1,10 @@
 package database.DataBaseManager;
 
 import database.pojo.Credit;
+import database.pojo.Deposit;
 
-import java.sql.CallableStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Types;
+import java.sql.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 /**
@@ -22,7 +21,35 @@ public class CreditManager extends AbstractManager<Credit, Integer> {
 
     @Override
     public Credit getEntityById(Integer id) {
-        throw new UnsupportedOperationException();
+        CallableStatement getCredit;
+        Credit credit = null;
+        try {
+            getCredit = getCallableStatement("{call getCredit(?,?,?,?,?,?,?,?)}");
+            getCredit.setInt("inoutput_id", id);
+            getCredit.registerOutParameter("inoutput_id", Types.TINYINT);
+            getCredit.registerOutParameter("output_code", Types.CHAR);
+            getCredit.registerOutParameter("output_period", Types.TINYINT);
+            getCredit.registerOutParameter("output_person_id", Types.TINYINT);
+            getCredit.registerOutParameter("output_currency_id", Types.TINYINT);
+            getCredit.registerOutParameter("output_credit_type_id", Types.TINYINT);
+            getCredit.registerOutParameter("output_status", Types.VARCHAR);
+            getCredit.registerOutParameter("output_amount", Types.DOUBLE);
+            getCredit.execute();
+            Integer creditId = getCredit.getInt("inoutput_id");
+            String code = getCredit.getString("output_code");
+            Integer period = getCredit.getInt("output_period");
+            Integer personId = getCredit.getInt("output_person_id");
+            Integer currencyId = getCredit.getInt("output_currency_id");
+            Integer creditTypeId = getCredit.getInt("output_credit_type_id");
+            String status = getCredit.getString("output_status");
+            Double amount = getCredit.getDouble("output_amount");
+            credit = new Credit(creditId, code, period, personId,
+                    currencyId, creditTypeId, status, amount);
+            closeCallableStatement(getCredit);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return credit;
     }
 
     @Override
@@ -104,12 +131,14 @@ public class CreditManager extends AbstractManager<Credit, Integer> {
         return code;
     }
 
-    public String acceptCredit(Integer id) {
+    public String acceptCredit(Credit credit) {
         String code = null;
         CallableStatement acceptCredit;
         try {
-            acceptCredit = getCallableStatement("{call acceptCredit(?,?)}");
-            acceptCredit.setInt("input_credit_id", id);
+            acceptCredit = getCallableStatement("{call acceptCredit(?,?,?,?)}");
+            acceptCredit.setInt("input_credit_id", credit.getId());
+            acceptCredit.setDate("input_start_date", Date.valueOf(LocalDate.now()));
+            acceptCredit.setDate("input_end_date", Date.valueOf(LocalDate.now().plusMonths(credit.getPeriod())));
             acceptCredit.registerOutParameter("output_credit_code", Types.CHAR);
             acceptCredit.execute();
             code = acceptCredit.getString("output_credit_code");

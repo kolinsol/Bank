@@ -5,6 +5,7 @@ import database.DataBaseManager.CreditManager;
 import database.DataBaseManager.DepositManager;
 import database.pojo.Account;
 import database.pojo.AccountType;
+import database.pojo.Credit;
 import database.pojo.Deposit;
 
 import javax.servlet.ServletException;
@@ -51,8 +52,7 @@ public class AdminServlet extends HttpServlet {
         if (req.getParameter("accept-credit") != null) {
             Integer creditId = Integer.parseInt(req.getParameter("creditId"));
             Integer personId = Integer.parseInt(req.getParameter("personId"));
-            System.out.println(personId);
-            String creditCode = acceptCredit(creditId);
+            String creditCode = acceptCredit(creditId, personId);
             System.out.println(creditCode);
             req.setAttribute("completeMessage", "Заявка " +creditCode+ " одобрена");
             req.setAttribute("credits", getPendingCredits());
@@ -136,10 +136,28 @@ public class AdminServlet extends HttpServlet {
         return code;
     }
 
-    private String acceptCredit(Integer id) {
+    private String acceptCredit(Integer creditId, Integer personId) {
+        Credit credit = null;
+        try {
+            credit = new CreditManager().getEntityById(creditId);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        AccountManager accountManager;
+        try {
+            accountManager = new AccountManager();
+            Account creditAccount =
+                    new Account(AccountType.CREDIT, credit, personId);
+            accountManager.create(creditAccount);
+            Account creditPercentageAccount =
+                    new Account(AccountType.CREDIT_PERCENTAGE,credit, personId);
+            accountManager.create(creditPercentageAccount);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         String code = null;
         try {
-            code = new CreditManager().acceptCredit(id);
+            code = new CreditManager().acceptCredit(credit);
         } catch (SQLException e) {
             e.printStackTrace();
         }

@@ -108,11 +108,44 @@ public class AccountManager extends AbstractManager<Account, Integer> {
     }
 
     private Integer createCreditAccount(Account entity) {
-        return 0;
+        CallableStatement createCreditAccount;
+        Integer id = null;
+        try {
+            createCreditAccount = getCallableStatement("{call  addCreditAccount(?,?,?,?,?,?,?)}");
+            createCreditAccount.setString("input_code", entity.getCode());
+            createCreditAccount.setString("input_type", entity.getType());
+            createCreditAccount.setInt("input_person_id", entity.getPersonId());
+            createCreditAccount.setInt("input_credit_id", entity.getTransactionId());
+            createCreditAccount.setInt("input_currency_id", entity.getCurrencyId());
+            createCreditAccount.setDouble("input_amount", entity.getAmount());
+            createCreditAccount.registerOutParameter("output_id", Types.TINYINT);
+            createCreditAccount.execute();
+            id = createCreditAccount.getInt("output_id");
+            closeCallableStatement(createCreditAccount);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return id;
     }
 
     private Integer createCreditPercentageAccount(Account entity) {
-        return 0;
+        CallableStatement createCreditPercentageAccount;
+        Integer id = null;
+        try {
+            createCreditPercentageAccount = getCallableStatement("{call  addCreditPercentageAccount(?,?,?,?,?,?)}");
+            createCreditPercentageAccount.setString("input_code", entity.getCode());
+            createCreditPercentageAccount.setString("input_type", entity.getType());
+            createCreditPercentageAccount.setInt("input_person_id", entity.getPersonId());
+            createCreditPercentageAccount.setInt("input_credit_id", entity.getTransactionId());
+            createCreditPercentageAccount.setInt("input_currency_id", entity.getCurrencyId());
+            createCreditPercentageAccount.registerOutParameter("output_id", Types.TINYINT);
+            createCreditPercentageAccount.execute();
+            id = createCreditPercentageAccount.getInt("output_id");
+            closeCallableStatement(createCreditPercentageAccount);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return id;
     }
 
     public Account getEntityById(Integer id) {
