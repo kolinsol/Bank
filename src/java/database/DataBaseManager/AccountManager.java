@@ -27,6 +27,28 @@ public class AccountManager extends AbstractManager<Account, Integer> {
 
     @Override
     public Integer create(Account entity) throws SQLException {
+        Integer id = null;
+        switch (entity.getType()) {
+            case "PERSONAL":
+                id = createPersonalAccount(entity);
+                break;
+            case "DEPOSIT":
+                id = createDepositAccount(entity);
+                break;
+            case "DEPOSIT-PERCENTAGE":
+                id = createDepositPercentageAccount(entity);
+                break;
+            case "CREDIT":
+                id = createCreditAccount(entity);
+                break;
+            case "CREDIT-PERCENTAGE":
+                id = createCreditPercentageAccount(entity);
+                break;
+        }
+        return id;
+    }
+
+    private Integer createPersonalAccount(Account entity) {
         CallableStatement createPersonalAccount;
         Integer id = null;
         try {
@@ -42,6 +64,55 @@ public class AccountManager extends AbstractManager<Account, Integer> {
             e.printStackTrace();
         }
         return id;
+    }
+
+    private Integer createDepositAccount(Account entity) {
+        CallableStatement createDepositAccount;
+        Integer id = null;
+        try {
+            createDepositAccount = getCallableStatement("{call  addDepositAccount(?,?,?,?,?,?,?)}");
+            createDepositAccount.setString("input_code", entity.getCode());
+            createDepositAccount.setString("input_type", entity.getType());
+            createDepositAccount.setInt("input_person_id", entity.getPersonId());
+            createDepositAccount.setInt("input_deposit_id", entity.getTransactionId());
+            createDepositAccount.setInt("input_currency_id", entity.getCurrencyId());
+            createDepositAccount.setDouble("input_amount", entity.getAmount());
+            createDepositAccount.registerOutParameter("output_id", Types.TINYINT);
+            createDepositAccount.execute();
+            id = createDepositAccount.getInt("output_id");
+            closeCallableStatement(createDepositAccount);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return id;
+    }
+
+    private Integer createDepositPercentageAccount(Account entity) {
+        CallableStatement createDepositPercentageAccount;
+        Integer id = null;
+        try {
+            createDepositPercentageAccount = getCallableStatement("{call  addDepositPercentageAccount(?,?,?,?,?,?)}");
+            createDepositPercentageAccount.setString("input_code", entity.getCode());
+            createDepositPercentageAccount.setString("input_type", entity.getType());
+            createDepositPercentageAccount.setInt("input_person_id", entity.getPersonId());
+            createDepositPercentageAccount.setInt("input_deposit_id", entity.getTransactionId());
+            createDepositPercentageAccount.setInt("input_currency_id", entity.getCurrencyId());
+            createDepositPercentageAccount.registerOutParameter("output_id", Types.TINYINT);
+            createDepositPercentageAccount.execute();
+            id = createDepositPercentageAccount.getInt("output_id");
+            closeCallableStatement(createDepositPercentageAccount);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return id;
+    }
+
+    private Integer createCreditAccount(Account entity) {
+        return 0;
+    }
+
+    private Integer createCreditPercentageAccount(Account entity) {
+        return 0;
     }
 
     public Account getEntityById(Integer id) {

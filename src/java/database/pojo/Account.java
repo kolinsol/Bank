@@ -10,8 +10,7 @@ public class Account {
     private String type;
     private Integer personId;
     private Integer currencyId;
-    private Integer depositId;
-    private Integer creditId;
+    private Integer transactionId;
     private Double amount;
 
     public Account(AccountType accountType, Person person) {
@@ -33,6 +32,7 @@ public class Account {
 //        if (accountType.getTypeValue().contains("PERCENTAGE")) {
 //            this.amount = 0.0;
 //        }
+        this.transactionId = transaction.getId();
     }
 
     public String getCode() {
@@ -55,11 +55,7 @@ public class Account {
         return amount;
     }
 
-    public Integer getDepositId() {
-        return depositId;
-    }
-
-    public Integer getCreditId() {
-        return creditId;
+    public Integer getTransactionId() {
+        return transactionId;
     }
 }

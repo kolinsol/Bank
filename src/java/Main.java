@@ -1,5 +1,9 @@
+import database.pojo.Account;
+import database.pojo.AccountType;
+import database.pojo.Deposit;
 import database.pojo.Person;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 /**
@@ -7,5 +11,7 @@ import java.util.Date;
  */
 public class Main {
     public static void main(String[] args) {
+        LocalDate n = LocalDate.now();
+        System.out.println(n.plusMonths(10));
     }
 }

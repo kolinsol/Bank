@@ -121,15 +121,15 @@ public class AdminServlet extends HttpServlet {
             Account depositAccount =
                     new Account(AccountType.DEPOSIT, deposit, personId);
             accountManager.create(depositAccount);
-            Account depositPercentageAcount =
+            Account depositPercentageAccount =
                     new Account(AccountType.DEPOSIT_PERCENTAGE, deposit, personId);
-            accountManager.create(depositPercentageAcount);
+            accountManager.create(depositPercentageAccount);
         } catch (SQLException e) {
             e.printStackTrace();
         }
         String code = null;
         try {
-            code = new DepositManager().acceptDeposit(depositId);
+            code = new DepositManager().acceptDeposit(deposit);
         } catch (SQLException e) {
             e.printStackTrace();
         }

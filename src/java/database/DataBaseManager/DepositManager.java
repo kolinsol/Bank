@@ -2,10 +2,8 @@ package database.DataBaseManager;
 
 import database.pojo.Deposit;
 
-import java.sql.CallableStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Types;
+import java.sql.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 /**
@@ -133,12 +131,14 @@ public class DepositManager extends AbstractManager<Deposit, Integer> {
         return code;
     }
 
-    public String acceptDeposit(Integer id) {
+    public String acceptDeposit(Deposit deposit) {
         String code = null;
         CallableStatement acceptDeposit;
         try {
-            acceptDeposit = getCallableStatement("{call acceptDeposit(?,?)}");
-            acceptDeposit.setInt("input_deposit_id", id);
+            acceptDeposit = getCallableStatement("{call acceptDeposit(?,?,?,?)}");
+            acceptDeposit.setInt("input_deposit_id", deposit.getId());
+            acceptDeposit.setDate("input_start_date", Date.valueOf(LocalDate.now()));
+            acceptDeposit.setDate("input_end_date", Date.valueOf(LocalDate.now().plusMonths(deposit.getPeriod())));
             acceptDeposit.registerOutParameter("output_deposit_code", Types.CHAR);
             acceptDeposit.execute();
             code = acceptDeposit.getString("output_deposit_code");

@@ -5,6 +5,9 @@ package database.pojo;
  */
 public class Deposit extends Transaction {
 
+    public Deposit() {
+    }
+
     public Deposit(String code, int period, int personId,
                    int currencyId, int transactionTypeId,
                    TransactionStatus transactionStatus, double amount) {
