@@ -246,12 +246,34 @@ public class PersonManager extends AbstractManager<Person, Integer> {
         return personIds;
     }
 
-    public static void main(String[] args) {
+    public ArrayList<String[]> getActiveTransactions(Person person) {
+        ArrayList<String[]> records = new ArrayList<>();
+        CallableStatement getActivePersonalTransactions;
         try {
-            PersonManager pm = new PersonManager();
-            pm.delete(4);
+            getActivePersonalTransactions = getCallableStatement("{call getActivePersonalTransactions(?)}");
+            getActivePersonalTransactions.setInt("input_person_id", person.getPersonId());
+            ResultSet rs = getActivePersonalTransactions.executeQuery();
+            while (rs.next()) {
+                String name = rs.getString("name");
+                String code = rs.getString("code");
+                String amount = rs.getString("amount");
+                String percentage = rs.getString("percentage");
+                String startDate = rs.getString("start_date");
+                String endDate = rs.getString("end_date");
+                String[] record = {
+                        name,
+                        code,
+                        amount,
+                        percentage,
+                        startDate,
+                        endDate
+                };
+                records.add(record);
+            }
+            closeCallableStatement(getActivePersonalTransactions);
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return records;
     }
 }

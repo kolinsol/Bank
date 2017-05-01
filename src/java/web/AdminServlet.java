@@ -3,10 +3,8 @@ package web;
 import database.DataBaseManager.AccountManager;
 import database.DataBaseManager.CreditManager;
 import database.DataBaseManager.DepositManager;
-import database.pojo.Account;
-import database.pojo.AccountType;
-import database.pojo.Credit;
-import database.pojo.Deposit;
+import database.DataBaseManager.PersonManager;
+import database.pojo.*;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -31,6 +29,16 @@ public class AdminServlet extends HttpServlet {
         if (req.getParameter("admin-credits") != null) {
             req.setAttribute("credits", getPendingCredits());
             req.getRequestDispatcher("jsp/admin/admin-credits.jsp").forward(req, resp);
+        }
+        if (req.getParameter("admin-persons") != null) {
+            req.setAttribute("persons", getAllPersons());
+            req.getRequestDispatcher("jsp/admin/admin-persons.jsp").forward(req, resp);
+        }
+        if (req.getParameter("get-full-person-info") != null) {
+            Integer personId = Integer.parseInt(req.getParameter("personId"));
+            Person person = getPerson(personId);
+            req.setAttribute("person", person);
+            req.getRequestDispatcher("jsp/admin/person-full-info.jsp").forward(req, resp);
         }
         if (req.getParameter("accept-deposit") != null) {
             Integer depositId = Integer.parseInt(req.getParameter("depositId"));
@@ -162,5 +170,25 @@ public class AdminServlet extends HttpServlet {
             e.printStackTrace();
         }
         return code;
+    }
+
+    private ArrayList<Person> getAllPersons() {
+        ArrayList<Person> persons = null;
+        try {
+            persons = new PersonManager().getAll();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return persons;
+    }
+
+    private Person getPerson(Integer personId) {
+        Person person = null;
+        try {
+            person = new PersonManager().getEntityById(personId);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return person;
     }
 }

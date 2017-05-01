@@ -7,6 +7,7 @@
 --%>
 <%@ page contentType="text/html; charset=UTF-8" isELIgnored="false" session="true" %>
 <%@ taglib prefix="c"  uri="http://java.sun.com/jsp/jstl/core"%>
+<jsp:include page="../header/simple-header.jsp"/>
 <html>
 <head>
     <title>Title</title>
@@ -14,8 +15,9 @@
 </head>
 <body>
 <form class="center" action="admin" method="get">
-    <input type="submit" name="admin-deposits" value="deposits">
-    <input type="submit" name="admin-credits" value="credits">
+    <input type="submit" name="admin-deposits" value="Депозитные заявки">
+    <input type="submit" name="admin-credits" value="Кредитные заявки">
+    <input type="submit" name="admin-persons" value="Список клиентов">
 </form>
 </body>
 </html>

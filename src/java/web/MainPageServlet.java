@@ -2,15 +2,18 @@ package web;
 
 import database.DataBaseManager.CreditTypeManager;
 import database.DataBaseManager.DepositTypeManager;
+import database.DataBaseManager.PersonManager;
 import database.pojo.Credit;
 import database.pojo.CreditType;
 import database.pojo.DepositType;
+import database.pojo.Person;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -33,6 +36,12 @@ public class MainPageServlet extends HttpServlet {
             req.setAttribute("creditTypes", getCreditTypes());
             req.getRequestDispatcher("jsp/credits/credit-main.jsp").forward(req, resp);
         }
+        if (req.getParameter("active-transactions") != null) {
+            HttpSession session = req.getSession(false);
+            Person person = (Person)session.getAttribute("person");
+            req.setAttribute("transactions", getActiveTransaction(person));
+            req.getRequestDispatcher("jsp/transactions/active-transactions.jsp").forward(req, resp);
+        }
     }
 
     private ArrayList<DepositType> getDepositTypes() {
@@ -53,5 +62,15 @@ public class MainPageServlet extends HttpServlet {
             e.printStackTrace();
         }
         return creditTypes;
+    }
+
+    private ArrayList<String[]> getActiveTransaction(Person person) {
+        ArrayList<String[]> records = null;
+        try {
+            records = new PersonManager().getActiveTransactions(person);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return records;
     }
 }

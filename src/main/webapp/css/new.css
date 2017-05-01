@@ -2,6 +2,11 @@ body {
     font-family: "Helvetica", serif;
 }
 
+form {
+    padding: 0;
+    margin: 0;
+}
+
 form.center {
     background-color: #F2F2F2;
     width: 200px;
@@ -31,7 +36,6 @@ input.transaction-submit {
     background-color: #B5112D;
     border-radius: 4px;
     padding: 20px;
-    margin-top: 20px;
     margin-left: 20px;
     display: inline-block;
 }
@@ -96,15 +100,38 @@ div.transaction-container {
     padding: 20px
 }
 
+div.center {
+    text-align: center;
+}
+
+span.person-info-name {
+    font-size: 24px;
+}
+
+div.person-info-container {
+    background-color: #F2F2F2;
+    border-radius: 4px;
+    margin-top: 50px;
+    padding: 20px;
+    display: inline-block;
+}
+
 span.transaction-name {
     font-size: 32px;
-    margin
 }
 
 div.table-wrapper {
     background-color: white;
     border-radius: 4px;
     padding: 20px;
+    display: inline-block;
+}
+
+div.vertical-table-wrapper {
+    background-color: white;
+    border-radius: 4px;
+    padding: 20px;
+    margin-bottom: 20px;
     margin-top: 20px;
     display: inline-block;
 }
@@ -116,8 +143,7 @@ table.transaction-description {
 }
 
 td.value {
-    text-align: center;
-    width: 40px;
+    padding-left: 10px;
 }
 
 div.table-wrapper + div.table-wrapper {
