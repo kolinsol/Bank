@@ -16,7 +16,7 @@
 <body>
 <jsp:include page="../messages/error-message.jsp"/>
 <form class="center" action="update" method="post">
-    <input class="insert" type="text" name="new-serial-number" value="${person.getPassport().getSerialNumber()}" maxlength="9"><br>
+    <input class="insert" type="text" name="new-serial-number" value="${person.getPassport().getSerialNumber()}" maxlength="9" pattern="[A-Za-z]{2}\d{7}"><br>
     <input class="date" type="text" name="new-issue-day" value="${person.getPassport().getIssueDate().getDayOfMonth()}" maxlength="2" size="2">
     <input class="date" type="text" name="new-issue-month" value="${person.getPassport().getIssueDate().getMonthValue()}" maxlength="2" size="2">
     <input class="date" type="text" name="new-issue-year" value="${person.getPassport().getIssueDate().getYear()}" maxlength="4" size="4"><br>

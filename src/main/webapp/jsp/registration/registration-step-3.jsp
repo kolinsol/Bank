@@ -18,7 +18,7 @@
 <jsp:include page="../messages/error-message.jsp"/>
     <form class="center" action="registration" method="post">
         Серийный номер<br>
-        <input class="insert" type="text" name="serial_number" placeholder="Введите номер..." maxlength="9"><br>
+        <input class="insert" type="text" name="serial_number" placeholder="AA1234567" maxlength="9" pattern="[A-Za-z]{2}\d{7}"><br>
         Дата выдачи<br>
         <input class="date" type="text" name="issue_day" placeholder="dd" maxlength="2" size="2">
         <input class="date" type="text" name="issue_month" placeholder="mm" maxlength="2" size="2">

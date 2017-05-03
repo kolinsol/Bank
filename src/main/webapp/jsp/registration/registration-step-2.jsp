@@ -18,9 +18,9 @@
 <jsp:include page="../messages/error-message.jsp"/>
     <form class="center" action="registration" method="post">
         Номер телефона<br>
-        <input class="insert" type="text" name="phone_number" placeholder="Введите номер..." maxlength="13"><br>
+        <input class="insert" type="text" name="phone_number" placeholder="+375-XX-XXX-XX-XX" maxlength="13" pattern="\+375(25|33|29|44)\d{7}"><br>
         Электронная почта<br>
-        <input class="insert" type="text" name="email" placeholder="Введите почту..."><br>
+        <input class="insert" type="email" name="email" placeholder="Введите почту..."><br>
         Адрес<br>
         <input class="insert" type="text" name="address" placeholder="Введите адрес..."><br>
         <div class="input">

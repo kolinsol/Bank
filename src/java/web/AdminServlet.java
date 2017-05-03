@@ -1,9 +1,6 @@
 package web;
 
-import database.DataBaseManager.AccountManager;
-import database.DataBaseManager.CreditManager;
-import database.DataBaseManager.DepositManager;
-import database.DataBaseManager.PersonManager;
+import database.DataBaseManager.*;
 import database.pojo.*;
 
 import javax.servlet.ServletException;
@@ -73,6 +70,11 @@ public class AdminServlet extends HttpServlet {
             req.setAttribute("completeMessage", "Заявка " +creditCode+ " отклонена");
             req.setAttribute("credits", getPendingCredits());
             req.getRequestDispatcher("jsp/admin/admin-credits.jsp").forward(req, resp);
+        }
+        if (req.getParameter("process-transactions") != null) {
+            processAllTransactions();
+            req.setAttribute("completeMessage", "Процедура закрытия банковского дня прошла успешно");
+            req.getRequestDispatcher("jsp/admin/admin-home-page.jsp").forward(req, resp);
         }
     }
 
@@ -190,5 +192,13 @@ public class AdminServlet extends HttpServlet {
             e.printStackTrace();
         }
         return person;
+    }
+
+    private void processAllTransactions() {
+        try {
+            new TransactionLogMananger().processAllTransactions();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }
