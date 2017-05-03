@@ -148,4 +148,16 @@ public class CreditManager extends AbstractManager<Credit, Integer> {
         }
         return code;
     }
+
+    public void traceCredit(Credit credit) {
+        CallableStatement traceCredit;
+        try {
+            traceCredit = getCallableStatement("{call traceCredit(?)}");
+            traceCredit.setInt("input_credit_id", credit.getId());
+            traceCredit.execute();
+            closeCallableStatement(traceCredit);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }

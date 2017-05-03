@@ -120,8 +120,10 @@ public class AdminServlet extends HttpServlet {
 
     private String acceptDeposit(Integer depositId, Integer personId) {
         Deposit deposit = null;
+        DepositManager depositManager;
         try {
-            deposit = new DepositManager().getEntityById(depositId);
+            depositManager = new DepositManager();
+            deposit = depositManager.getEntityById(depositId);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -137,6 +139,13 @@ public class AdminServlet extends HttpServlet {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        try {
+            depositManager = new DepositManager();
+            deposit = depositManager.getEntityById(depositId);
+            depositManager.traceDeposit(deposit);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         String code = null;
         try {
             code = new DepositManager().acceptDeposit(deposit);
@@ -148,8 +157,10 @@ public class AdminServlet extends HttpServlet {
 
     private String acceptCredit(Integer creditId, Integer personId) {
         Credit credit = null;
+        CreditManager creditManager = null;
         try {
-            credit = new CreditManager().getEntityById(creditId);
+            creditManager = new CreditManager();
+            credit = creditManager.getEntityById(creditId);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -162,6 +173,13 @@ public class AdminServlet extends HttpServlet {
             Account creditPercentageAccount =
                     new Account(AccountType.CREDIT_PERCENTAGE,credit, personId);
             accountManager.create(creditPercentageAccount);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        try {
+            creditManager = new CreditManager();
+            credit = creditManager.getEntityById(creditId);
+            creditManager.traceCredit(credit);
         } catch (SQLException e) {
             e.printStackTrace();
         }

@@ -1,6 +1,7 @@
 package database.DataBaseManager;
 
 import database.pojo.Deposit;
+import jdk.nashorn.internal.codegen.CompilerConstants;
 
 import java.sql.*;
 import java.time.LocalDate;
@@ -147,5 +148,17 @@ public class DepositManager extends AbstractManager<Deposit, Integer> {
             e.printStackTrace();
         }
         return code;
+    }
+
+    public void traceDeposit(Deposit deposit) {
+        CallableStatement traceDeposit;
+        try {
+            traceDeposit = getCallableStatement("{call traceDeposit(?)}");
+            traceDeposit.setInt("input_deposit_id", deposit.getId());
+            traceDeposit.execute();
+            closeCallableStatement(traceDeposit);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }
